@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>逍遥骰</title>
+        <style type="text/css">
+            button{
+                width:150px;
+                height: 75px;
+            }
+        </style>
+    </head>
+    <body background="img/番茄.jpg">
+        <div align="center">
+            <h1><font size="20">逍遥骰</font></h1>
+            <br>
+
+            <!-- 游戏规则按钮 -->
+            <a href="file:///D:/vs/vsvs/%E6%B8%B8%E6%88%8F%E8%A7%84%E5%88%99.html"><button type="button" name="游戏规则" value="游戏规则" /><font size="5">游戏规则</font></button></a>
+            <br>
+
+            <!-- 双人对战按钮 -->
+            <a href="file:///D:/vs/vsvs/%E5%8F%8C%E4%BA%BA%E5%AF%B9%E6%88%98.html"><button type="button" name="双人对战" value="双人对战" /><font size="5">双人对战</font></button></a>
+            <br>
+
+            <!-- 人机对战按钮 -->
+            <a href="file:///D:/vs/vsvs/%E4%BA%BA%E6%9C%BA%E5%AF%B9%E6%88%98%E7%AE%80%E6%98%93%E7%89%88.html"><button type="button" name="人机对战" value="人机对战" /><font size="5">人机对战</font></button></a>
+            <br>
+
+        </div>  
+    </body>
+</html>

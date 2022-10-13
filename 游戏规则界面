@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>游戏规则</title>
+    </head>
+    <body background="img/番茄.jpg">
+        <div align="center">
+            <!-- 游戏规则 -->
+            <h1><font size="20">游戏规则如下</font></h1>
+            <img src="img/01.初始盘面.png" width="600" height="400" alt="01">
+            <br>
+            <img src="img/02.轮流掷骰.png" width="600" height="400" alt="02">
+            <br>
+            <img src="img/03.消除规则.png" width="600" height="400" alt="03">
+            <br>
+            <img src="img/04.结算规则.png" width="600" height="400" alt="04">
+            <br>
+            <a href="file:///D:/vs/vsvs/%E7%95%8C%E9%9D%A2.html"><button type="button" name="OK" value="OK" /><font size="5">OK</font></button></a>
+        </div>
+    </body>
+</html>
