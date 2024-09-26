@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>逍遥骰</title>
+        <style type="text/css">
+            *{margin: 0;padding: 0;}
+            .title{
+                text-align: center;
+            }
+            .pan1{
+                display: inline-block;
+                margin: 50px 200px;
+                box-shadow: 0 0 10px hsl(187, 77%, 58%);
+                background-color: aquamarine;
+                cursor: pointer;
+            }
+            .pan2{
+                display: inline-block;
+                margin: 50px auto;
+                box-shadow: 0 0 10px #4ad427;
+                background-color: aqua;
+                cursor: pointer;
+            }
+            .demo{
+                width: 760px;
+                height: 100px;
+                margin: 10px auto;
+            }
+            .wrap{
+                width: 80px;
+                height: 80px;
+                margin: 40px auto 30px auto;
+                position: relative;
+            }
+            .dice{
+                width: 80px;
+                height: 80px;
+                background: url(骰子.jpg) no-repeat;
+                background-position: -9px -231px ;
+            }
+            p{
+                text-align: center;
+                font-size: 16px;
+            }
+            .dice_1{
+                background-position: -9px -231px;
+            }
+            .dice_2{
+                background-position: -93px -231px;
+            }
+            .dice_3{
+                background-position: -182px -231px;
+            }
+            .dice_4{
+                background-position: -270px -231px;
+            }
+            .dice_5{
+                background-position: -358px -231px;
+            }
+            .dice_6{
+                background-position: -445px -231px;
+            }
+            
+        </style>
+    </head>
+    <body background="2.jpg">
+        <h3 class="title">--双人对战-- </h3>
+        <!-- 棋盘 -->
+        <canvas class="pan1" width="450px" height="450px"></canvas>
+        <canvas class="pan2" width="450px" height="450px"></canvas>
+        <!-- 骰子 -->
+        <div class="mian">
+            <div class="demo">
+                <div class="wrap">
+                    <div id="dice" class="dice"></div>
+                </div>
+                <p id="result">掷骰子</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+            var n;
+            $(function(){
+                var dice = $('#dice');
+                dice.click(function(){
+                    dice.attr('class','dice');
+                    var num = Math.floor(Math.random()*6+1)
+                    n=num;
+                    dice.animate({},100,function(){
+                        dice.addClass('dice_'+num);
+                        $("#result").html('您的点数是'+num+'</span>')
+                    })
+                })
+            })
+        var pan1 = document.getElementsByClassName("pan1")[0];
+        var pan2 = document.getElementsByClassName("pan2")[0];
+        var context1 = pan1.getContext("2d");
+        var context2 = pan2.getContext("2d");
+        context1.strokeStyle="#b9b9b9"
+        context2.strokeStyle="#b9b9b9"
+        window.onload=function(){
+            drawPanBoard();
+        }
+        function drawPanBoard(){
+            for(var i=1;i<3;i++){
+                context1.moveTo(0,i*150);
+                context1.lineTo(450,i*150);
+                context1.stroke();
+                context1.moveTo(i*150,0);
+                context1.lineTo(i*150,450);                    
+                context1.stroke();
+                context2.moveTo(0,i*150);
+                context2.lineTo(450,i*150);
+                context2.stroke();
+                context2.moveTo(i*150,0);
+                context2.lineTo(i*150,450);
+                context2.stroke();
+            }            
+        }
+         // 放置骰子
+        var pan1board=[];
+        var pan2board=[];
+        for(var i=0;i<3;i++){
+            pan1board[i]=[];
+            pan2board[i]=[];
+            for(var j=0;j<3;j++){
+                pan1board[i][j]=0;
+                pan2board[i][j]=0;
+            }
+        }
+            var player1=true;
+            var player2=false;
+            var over=0;
+            var count=0;
+            var player1count=0;
+            var player2count=0;
+            pan1.onclick=function(e){
+                if(over){
+                    for(var j=0;j<3;j++){
+                        var nnum=[];
+                        for(var k=1;k<7;k++){
+                            nnum[k]=0;
+                        }
+                        for(var i=0;i<3;i++){
+                        var flag=pan1board[i][j];
+                        nnum[flag]++;
+                        }
+                        for(var l=1;l<7;l++){
+                            player1count+=l*nnum[l]*nnum[l];
+                        }
+                    }
+                    for(var j=0;j<3;j++){
+                        var nnum=[];
+                        for(var k=1;k<7;k++){
+                            nnum[k]=0;
+                        }
+                    for(var i=0;i<3;i++){
+                            var flag=pan2board[i][j];
+                        nnum[flag]++;
+                        }
+                    for(var l=1;l<7;l++){
+                        player2count+=l*nnum[l]*nnum[l];
+                        }
+                    }
+                    if(player1count>player2count){
+                        alert("玩家一的得分为："+player1count+",玩家二的得分为："+player2count+"玩家一win");
+                    }
+                    if(player1count<player2count){
+                        alert("玩家一的得分为："+player1count+",玩家二的得分为："+player2count+"玩家二win");
+                    }
+                    if(player1count==player2count){
+                        alert("玩家一的得分为："+player1count+",玩家二的得分为："+player2count+"平手");
+                    }
+                }
+                if(!player1){
+                    return;
+                }
+                else{
+                    var x=e.offsetX;
+                    var y=e.offsetY;
+                    var i=Math.floor(x/150)
+                    var j=Math.floor(y/150)
+                    if(pan1board[i][j]==0){
+                        pan1board[i][j]=n;
+                        oneStep1(i,j,player1)
+                        for(var k=0;k<3;k++){
+                            if(pan2board[k][j]==pan1board[i][j]){
+                                pan2board[k][j]=0;
+                                var color;
+                                color="aqua";
+                                context2.fillStyle=color;
+                                context2.fillRect(k*150,j*150,148,148);
+                            }
+                        }
+                        for(var p=0;p<3;p++){
+                            for(var q=0;q<3;q++){
+                                if(pan1board[p][q]){
+                                    count++;
+                                }
+                            }
+                        }
+                        if(count==9){
+                            over=1;
+                        }
+                        count=0;
+                        player1=false;
+                        player2=true;
+                    }
+                }
+            }
+            pan2.onclick=function(e){
+                if(over){
+                    return;
+                }
+                if(!player2){
+                    return;
+                }                
+                else{
+                    var x=e.offsetX;
+                    var y=e.offsetY;
+                    var i=Math.floor(x/150)
+                    var j=Math.floor(y/150)
+                    if(pan2board[i][j]==0){
+                        pan2board[i][j]=n;                        
+                        oneStep2(i,j,player2)
+                        for(var k=0;k<3;k++){
+                            if(pan1board[k][j]==pan2board[i][j]){
+                                pan1board[k][j]=0;
+                                var color;
+                                color="aquamarine";
+                                context1.fillStyle=color;
+                                context1.fillRect(k*150,j*150,148,148);
+                            }
+                        }
+                        for(var p=0;p<3;p++){
+                            for(var q=0;q<3;q++){
+                                if(pan2board[p][q]){
+                                    count++;
+                                }
+                            }
+                        }
+                        if(count==9){
+                            over=true;
+                        }
+                        count=0;
+                        player1=true;
+                        player2=false;
+                    }
+                }
+            }
+            function oneStep1(i,j,player1){
+                    context1.beginPath();
+                    context1.arc(75+i*150,75+j*150,70,0,2*Math.PI);
+                    context1.closePath();
+                    var color;
+                    color="blue"
+                    context1.fillStyle=color;
+                    context1.fill();
+                    var tst=n;
+                    context1.font="70px Bold";
+                    context1.strokeText(tst,60+i*150,100+j*150)
+                    }
+            function oneStep2(i,j,player2){
+                    context2.beginPath();
+                    context2.arc(75+i*150,75+j*150,70,0,2*Math.PI);
+                    context2.closePath();
+                    var color;
+                    color="green";
+                    context2.fillStyle=color;
+                    context2.fill();
+                    var tst=n;
+                    context2.font="70px Bold";
+                    context2.strokeText(tst,60+i*150,100+j*150)
+            }
+        </script>
+    </body>
+</html>
